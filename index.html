@@ -1506,6 +1506,16 @@ Usa este espacio para lo que quieras:
         // Cargar tareas
         async function loadTasks() {
             try {
+                // Primero intentar cargar de localStorage (instantáneo)
+                const localData = localStorage.getItem('kawaii-tasks');
+                if (localData) {
+                    tasks = JSON.parse(localData);
+                    initializeReminders();
+                    renderTasks();
+                    return;
+                }
+                
+                // Si no hay en localStorage, buscar en window.storage
                 const result = await window.storage.get('kawaii-tasks');
                 if (result && result.value) {
                     tasks = JSON.parse(result.value);
@@ -1520,7 +1530,11 @@ Usa este espacio para lo que quieras:
         // Guardar tareas
         async function saveTasks() {
             try {
-                await window.storage.set('kawaii-tasks', JSON.stringify(tasks));
+                const data = JSON.stringify(tasks);
+                // Guardar instantáneamente en localStorage (síncrono)
+                localStorage.setItem('kawaii-tasks', data);
+                // También guardar en window.storage (asíncrono)
+                await window.storage.set('kawaii-tasks', data);
             } catch (error) {
                 console.error('Error al guardar:', error);
             }
@@ -1529,6 +1543,15 @@ Usa este espacio para lo que quieras:
         // Cargar cuaderno
         async function loadNotebook() {
             try {
+                // Primero intentar localStorage
+                const localData = localStorage.getItem('girly-notebook');
+                if (localData) {
+                    document.getElementById('notebookText').value = localData;
+                    updateWordCount();
+                    return;
+                }
+                
+                // Si no, buscar en window.storage
                 const result = await window.storage.get('girly-notebook');
                 if (result && result.value) {
                     document.getElementById('notebookText').value = result.value;
@@ -1542,6 +1565,15 @@ Usa este espacio para lo que quieras:
         // Cargar notas guardadas
         async function loadSavedNotes() {
             try {
+                // Primero localStorage
+                const localData = localStorage.getItem('girly-saved-notes');
+                if (localData) {
+                    savedNotes = JSON.parse(localData);
+                    renderSavedNotes();
+                    return;
+                }
+                
+                // Si no, window.storage
                 const result = await window.storage.get('girly-saved-notes');
                 if (result && result.value) {
                     savedNotes = JSON.parse(result.value);
@@ -1556,6 +1588,9 @@ Usa este espacio para lo que quieras:
         async function saveNotebook() {
             try {
                 const text = document.getElementById('notebookText').value;
+                // Guardar instantáneamente en localStorage
+                localStorage.setItem('girly-notebook', text);
+                // También en window.storage
                 await window.storage.set('girly-notebook', text);
             } catch (error) {
                 console.error('Error al guardar:', error);
@@ -1565,7 +1600,11 @@ Usa este espacio para lo que quieras:
         // Guardar notas guardadas
         async function saveSavedNotes() {
             try {
-                await window.storage.set('girly-saved-notes', JSON.stringify(savedNotes));
+                const data = JSON.stringify(savedNotes);
+                // localStorage instantáneo
+                localStorage.setItem('girly-saved-notes', data);
+                // window.storage asíncrono
+                await window.storage.set('girly-saved-notes', data);
             } catch (error) {
                 console.error('Error al guardar notas:', error);
             }
@@ -1574,6 +1613,15 @@ Usa este espacio para lo que quieras:
         // Cargar listas de compras
         async function loadShoppingLists() {
             try {
+                // Primero localStorage
+                const localData = localStorage.getItem('girly-shopping-lists');
+                if (localData) {
+                    shoppingLists = JSON.parse(localData);
+                    renderAllLists();
+                    return;
+                }
+                
+                // Si no, window.storage
                 const result = await window.storage.get('girly-shopping-lists');
                 if (result && result.value) {
                     shoppingLists = JSON.parse(result.value);
@@ -1587,7 +1635,11 @@ Usa este espacio para lo que quieras:
         // Guardar listas de compras
         async function saveShoppingLists() {
             try {
-                await window.storage.set('girly-shopping-lists', JSON.stringify(shoppingLists));
+                const data = JSON.stringify(shoppingLists);
+                // localStorage instantáneo
+                localStorage.setItem('girly-shopping-lists', data);
+                // window.storage asíncrono
+                await window.storage.set('girly-shopping-lists', data);
             } catch (error) {
                 console.error('Error al guardar listas:', error);
             }
