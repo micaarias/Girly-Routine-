@@ -549,11 +549,28 @@
             }
 
             .header h1 {
-                font-size: 2.2em;
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 0.95em;
             }
 
             .tabs {
                 flex-direction: column;
+            }
+
+            .tab {
+                font-size: 0.95em;
+                padding: 12px;
+            }
+
+            .form-title {
+                font-size: 1.3em;
+            }
+
+            .task-title {
+                font-size: 1.05em;
             }
 
             .task-actions {
@@ -561,7 +578,132 @@
             }
 
             .stat-value {
-                font-size: 2.5em;
+                font-size: 2.2em;
+            }
+
+            .stat-label {
+                font-size: 0.9em;
+            }
+
+            label {
+                font-size: 0.85em;
+            }
+
+            input, select, textarea {
+                font-size: 0.95em;
+                padding: 10px;
+            }
+
+            .btn {
+                font-size: 0.95em;
+                padding: 12px 25px;
+            }
+
+            .btn-small {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+
+            .badge {
+                font-size: 0.8em;
+                padding: 6px 10px;
+            }
+
+            .task-notes {
+                font-size: 0.9em;
+            }
+
+            .notebook-title {
+                font-size: 1.3em;
+            }
+
+            .notebook-date {
+                font-size: 0.85em;
+            }
+
+            .notebook-textarea {
+                font-size: 0.95em;
+                line-height: 35px;
+            }
+
+            .notebook-pages {
+                padding: 20px 15px 20px 35px;
+            }
+
+            .notebook-header {
+                padding: 15px 15px;
+            }
+
+            .notebook-footer {
+                padding: 12px 15px;
+            }
+
+            .notebook::before {
+                left: 25px;
+            }
+
+            .chart-title {
+                font-size: 1.2em;
+            }
+
+            .bar-label {
+                font-size: 0.9em;
+                min-width: 110px;
+            }
+
+            .bar-fill {
+                font-size: 0.9em;
+            }
+
+            .bar-value {
+                font-size: 0.95em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .task-form {
+                padding: 20px;
+            }
+
+            .empty-state h3 {
+                font-size: 1.3em;
+            }
+
+            .empty-state p {
+                font-size: 1em;
+            }
+
+            .filter-btn {
+                font-size: 0.85em;
+                padding: 8px 14px;
+            }
+
+            .word-count {
+                font-size: 0.9em;
+            }
+
+            .note-title-input {
+                font-size: 1.1em;
+            }
+
+            .note-date {
+                font-size: 0.8em;
+            }
+
+            .note-content {
+                font-size: 0.9em;
+            }
+
+            .new-note-btn {
+                font-size: 1em;
+                padding: 12px 25px;
+            }
+
+            .mode-btn {
+                font-size: 0.9em;
+                padding: 8px 16px;
             }
         }
 
@@ -670,7 +812,7 @@
 
         /* Notebook Styles */
         .notebook-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
@@ -687,7 +829,7 @@
         .notebook::before {
             content: '';
             position: absolute;
-            left: 60px;
+            left: 40px;
             top: 0;
             bottom: 0;
             width: 2px;
@@ -698,7 +840,7 @@
 
         .notebook-header {
             background: linear-gradient(135deg, #ffe4f3, #fff0f8);
-            padding: 25px 30px;
+            padding: 20px 25px;
             border-bottom: 3px solid #ffb3d9;
             display: flex;
             align-items: center;
@@ -719,7 +861,7 @@
         }
 
         .notebook-pages {
-            padding: 40px 30px 40px 80px;
+            padding: 30px 20px 30px 50px;
             min-height: 500px;
             background: 
                 repeating-linear-gradient(
@@ -753,7 +895,7 @@
 
         .notebook-footer {
             background: linear-gradient(135deg, #fff0f8, #ffe4f3);
-            padding: 20px 30px;
+            padding: 15px 20px;
             border-top: 3px solid #ffb3d9;
             display: flex;
             justify-content: space-between;
