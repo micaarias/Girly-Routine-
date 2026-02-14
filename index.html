@@ -2237,6 +2237,43 @@ Usa este espacio para lo que quieras:
                     });
                 }
                 
+                // Guardar TODO antes de cerrar/salir
+                const saveAllData = async () => {
+                    try {
+                        await Promise.all([
+                            saveTasks(),
+                            saveNotebook(),
+                            saveSavedNotes(),
+                            saveShoppingLists()
+                        ]);
+                        console.log('💾 Datos guardados antes de cerrar');
+                    } catch (error) {
+                        console.error('Error al guardar antes de cerrar:', error);
+                    }
+                };
+                
+                // Cuando el usuario sale de la app (botón atrás, cerrar, etc)
+                window.addEventListener('beforeunload', (e) => {
+                    saveAllData();
+                });
+                
+                // Cuando la app pasa a segundo plano o se oculta
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        saveAllData();
+                    }
+                });
+                
+                // Cuando pierde el foco (Android)
+                window.addEventListener('blur', () => {
+                    saveAllData();
+                });
+                
+                // Auto-save periódico cada 2 segundos (backup por si acaso)
+                setInterval(() => {
+                    saveAllData();
+                }, 2000);
+                
                 // Dar un ratito para que todo se renderice
                 await new Promise(resolve => setTimeout(resolve, 300));
                 
