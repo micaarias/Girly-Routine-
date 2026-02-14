@@ -705,6 +705,26 @@
                 font-size: 0.9em;
                 padding: 8px 16px;
             }
+
+            .lists-categories {
+                grid-template-columns: 1fr;
+            }
+
+            .list-category-title {
+                font-size: 1.1em;
+            }
+
+            .list-category-icon {
+                font-size: 1.5em;
+            }
+
+            .list-item-text {
+                font-size: 0.9em;
+            }
+
+            .add-item-input {
+                font-size: 0.9em;
+            }
         }
 
         /* Custom select styling */
@@ -829,13 +849,13 @@
         .notebook::before {
             content: '';
             position: absolute;
-            left: 40px;
+            left: 15px;
             top: 0;
             bottom: 0;
             width: 2px;
             background: linear-gradient(to bottom, #ffb3d9 0%, #ffb3d9 50%, transparent 50%, transparent 100%);
             background-size: 2px 20px;
-            opacity: 0.3;
+            opacity: 0.2;
         }
 
         .notebook-header {
@@ -861,7 +881,7 @@
         }
 
         .notebook-pages {
-            padding: 30px 20px 30px 50px;
+            padding: 20px 15px;
             min-height: 500px;
             background: 
                 repeating-linear-gradient(
@@ -966,6 +986,13 @@
             font-size: 1em;
             white-space: pre-wrap;
             word-wrap: break-word;
+            min-height: 60px;
+        }
+
+        .note-content:empty:before {
+            content: attr(data-placeholder);
+            color: #ffb3d9;
+            opacity: 0.6;
         }
 
         .note-actions-bar {
@@ -1034,6 +1061,153 @@
         .mode-btn:hover {
             border-color: #ffb3d9;
         }
+
+        /* Lists Section Styles */
+        .lists-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .list-category-card {
+            background: linear-gradient(135deg, #fff0f8, #ffe8f5);
+            border: 3px solid #ffe4f3;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(255, 182, 217, 0.15);
+            transition: all 0.3s;
+        }
+
+        .list-category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 182, 217, 0.25);
+        }
+
+        .list-category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #ffe4f3;
+        }
+
+        .list-category-icon {
+            font-size: 2em;
+        }
+
+        .list-category-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #ff66b3;
+            flex: 1;
+        }
+
+        .list-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #ffe4f3;
+            transition: all 0.3s;
+        }
+
+        .list-item:hover {
+            border-color: #ffb3d9;
+        }
+
+        .list-item.checked {
+            background: linear-gradient(135deg, #f5f5f5, #fafafa);
+            opacity: 0.6;
+        }
+
+        .list-item.checked .list-item-text {
+            text-decoration: line-through;
+            color: #ff99cc;
+        }
+
+        .list-item-checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #ff99cc;
+            flex-shrink: 0;
+        }
+
+        .list-item-text {
+            flex: 1;
+            color: #ff66b3;
+            font-weight: 500;
+            font-size: 1em;
+        }
+
+        .list-item-delete {
+            background: transparent;
+            border: none;
+            color: #ff99cc;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 5px;
+            opacity: 0.6;
+            transition: all 0.3s;
+        }
+
+        .list-item-delete:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .add-item-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .add-item-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ffe4f3;
+            border-radius: 10px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95em;
+            color: #ff66b3;
+        }
+
+        .add-item-input:focus {
+            outline: none;
+            border-color: #ffb3d9;
+        }
+
+        .add-item-input::placeholder {
+            color: #ffb3d9;
+            opacity: 0.6;
+        }
+
+        .add-item-btn {
+            background: linear-gradient(135deg, #ff9ec8, #ffb3d9);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+        }
+
+        .add-item-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 158, 200, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -1050,6 +1224,7 @@
         <div class="main-card">
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('tasks')">📝 Mis Tareas</div>
+                <div class="tab" onclick="switchTab('lists')">📋 Mis Listas</div>
                 <div class="tab" onclick="switchTab('notebook')">📓 Mi Cuadernito</div>
                 <div class="tab" onclick="switchTab('stats')">📊 Estadísticas</div>
             </div>
@@ -1150,6 +1325,64 @@
                     </div>
                 </div>
 
+                <div id="lists-view" style="display: none;">
+                    <div class="form-title">📋 Mis Listas Girly 📋</div>
+                    
+                    <div class="lists-categories">
+                        <!-- Alimentos -->
+                        <div class="list-category-card">
+                            <div class="list-category-header">
+                                <span class="list-category-icon">🛒</span>
+                                <h3 class="list-category-title">Alimentos</h3>
+                            </div>
+                            <div class="list-items" id="list-alimentos"></div>
+                            <form class="add-item-form" onsubmit="addListItem(event, 'alimentos')">
+                                <input type="text" class="add-item-input" placeholder="Agregar item..." required>
+                                <button type="submit" class="add-item-btn">+</button>
+                            </form>
+                        </div>
+
+                        <!-- Farmacia -->
+                        <div class="list-category-card">
+                            <div class="list-category-header">
+                                <span class="list-category-icon">💊</span>
+                                <h3 class="list-category-title">Farmacia</h3>
+                            </div>
+                            <div class="list-items" id="list-farmacia"></div>
+                            <form class="add-item-form" onsubmit="addListItem(event, 'farmacia')">
+                                <input type="text" class="add-item-input" placeholder="Agregar item..." required>
+                                <button type="submit" class="add-item-btn">+</button>
+                            </form>
+                        </div>
+
+                        <!-- Beauty/Self care -->
+                        <div class="list-category-card">
+                            <div class="list-category-header">
+                                <span class="list-category-icon">💅🏻</span>
+                                <h3 class="list-category-title">Beauty/Self care</h3>
+                            </div>
+                            <div class="list-items" id="list-beauty"></div>
+                            <form class="add-item-form" onsubmit="addListItem(event, 'beauty')">
+                                <input type="text" class="add-item-input" placeholder="Agregar item..." required>
+                                <button type="submit" class="add-item-btn">+</button>
+                            </form>
+                        </div>
+
+                        <!-- Otros -->
+                        <div class="list-category-card">
+                            <div class="list-category-header">
+                                <span class="list-category-icon">🌈</span>
+                                <h3 class="list-category-title">Otros</h3>
+                            </div>
+                            <div class="list-items" id="list-otros-shopping"></div>
+                            <form class="add-item-form" onsubmit="addListItem(event, 'otros-shopping')">
+                                <input type="text" class="add-item-input" placeholder="Agregar item..." required>
+                                <button type="submit" class="add-item-btn">+</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="notebook-view" style="display: none;">
                     <div class="form-title">📓 Mi Cuadernito Girly 📓</div>
                     
@@ -1207,6 +1440,12 @@ Usa este espacio para lo que quieras:
         let reminderIntervals = [];
         let savedNotes = [];
         let notebookMode = 'quick';
+        let shoppingLists = {
+            alimentos: [],
+            farmacia: [],
+            beauty: [],
+            'otros-shopping': []
+        };
 
         // Cargar tareas
         async function loadTasks() {
@@ -1274,6 +1513,94 @@ Usa este espacio para lo que quieras:
             } catch (error) {
                 console.error('Error al guardar notas:', error);
             }
+        }
+
+        // Cargar listas de compras
+        async function loadShoppingLists() {
+            try {
+                const result = await window.storage.get('girly-shopping-lists');
+                if (result && result.value) {
+                    shoppingLists = JSON.parse(result.value);
+                }
+            } catch (error) {
+                console.log('Nuevas listas! 🛒');
+            }
+            renderAllLists();
+        }
+
+        // Guardar listas de compras
+        async function saveShoppingLists() {
+            try {
+                await window.storage.set('girly-shopping-lists', JSON.stringify(shoppingLists));
+            } catch (error) {
+                console.error('Error al guardar listas:', error);
+            }
+        }
+
+        // Agregar item a lista
+        function addListItem(event, category) {
+            event.preventDefault();
+            const input = event.target.querySelector('.add-item-input');
+            const text = input.value.trim();
+            
+            if (text) {
+                const item = {
+                    id: Date.now(),
+                    text: text,
+                    checked: false
+                };
+                
+                shoppingLists[category].push(item);
+                saveShoppingLists();
+                renderList(category);
+                input.value = '';
+            }
+        }
+
+        // Toggle item checked
+        function toggleListItem(category, itemId) {
+            const item = shoppingLists[category].find(i => i.id === itemId);
+            if (item) {
+                item.checked = !item.checked;
+                saveShoppingLists();
+                renderList(category);
+            }
+        }
+
+        // Eliminar item
+        function deleteListItem(category, itemId) {
+            shoppingLists[category] = shoppingLists[category].filter(i => i.id !== itemId);
+            saveShoppingLists();
+            renderList(category);
+        }
+
+        // Renderizar una lista específica
+        function renderList(category) {
+            const container = document.getElementById(`list-${category}`);
+            const items = shoppingLists[category];
+            
+            if (items.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #ffb3d9; padding: 20px; font-size: 0.9em;">No hay items aún 💕</div>';
+                return;
+            }
+            
+            container.innerHTML = items.map(item => `
+                <div class="list-item ${item.checked ? 'checked' : ''}">
+                    <input type="checkbox" 
+                           class="list-item-checkbox" 
+                           ${item.checked ? 'checked' : ''}
+                           onchange="toggleListItem('${category}', ${item.id})">
+                    <span class="list-item-text">${item.text}</span>
+                    <button class="list-item-delete" onclick="deleteListItem('${category}', ${item.id})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        // Renderizar todas las listas
+        function renderAllLists() {
+            Object.keys(shoppingLists).forEach(category => {
+                renderList(category);
+            });
         }
 
         // Sistema de recordatorios
@@ -1546,20 +1873,23 @@ Usa este espacio para lo que quieras:
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
             
+            // Hide all views
+            document.getElementById('tasks-view').style.display = 'none';
+            document.getElementById('lists-view').style.display = 'none';
+            document.getElementById('notebook-view').style.display = 'none';
+            document.getElementById('stats-view').style.display = 'none';
+            
             if (tab === 'tasks') {
                 document.getElementById('tasks-view').style.display = 'block';
-                document.getElementById('notebook-view').style.display = 'none';
-                document.getElementById('stats-view').style.display = 'none';
+            } else if (tab === 'lists') {
+                document.getElementById('lists-view').style.display = 'block';
+                loadShoppingLists();
             } else if (tab === 'notebook') {
-                document.getElementById('tasks-view').style.display = 'none';
                 document.getElementById('notebook-view').style.display = 'block';
-                document.getElementById('stats-view').style.display = 'none';
                 updateNotebookDate();
                 loadNotebook();
                 loadSavedNotes();
-            } else {
-                document.getElementById('tasks-view').style.display = 'none';
-                document.getElementById('notebook-view').style.display = 'none';
+            } else if (tab === 'stats') {
                 document.getElementById('stats-view').style.display = 'block';
                 renderStats();
             }
@@ -1659,8 +1989,9 @@ Usa este espacio para lo que quieras:
                         </div>
                         <div class="note-content" 
                              contenteditable="true" 
+                             onfocus="if(this.innerText.includes('Escribe tu nota aquí')) this.innerText=''"
                              onblur="updateNoteContent(${note.id}, this.innerText)"
-                             placeholder="Escribe tu nota aquí...">${note.content || '<span style="color: #ffb3d9; opacity: 0.6;">Escribe tu nota aquí... 💭</span>'}</div>
+                             data-placeholder="Escribe tu nota aquí... 💭">${note.content || ''}</div>
                         <div class="note-actions-bar">
                             <button class="btn btn-small btn-delete" onclick="deleteNote(${note.id})">🗑️ Eliminar</button>
                         </div>
