@@ -1210,9 +1210,63 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 158, 200, 0.4);
         }
+
+        /* Loader Styles */
+        .app-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe4f3 25%, #ffd4f0 50%, #ffe8f5 75%, #fff0f8 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease-out;
+        }
+
+        .app-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .loader-text {
+            font-size: 1.5em;
+            color: #ff66b3;
+            font-weight: 700;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .loader-subtext {
+            font-size: 1em;
+            color: #ff99cc;
+            margin-top: 10px;
+            font-family: 'Quicksand', sans-serif;
+        }
     </style>
 </head>
 <body>
+    <!-- Loader -->
+    <div class="app-loader" id="appLoader">
+        <div class="loader-content">
+            <div class="loader-icon">✨</div>
+            <div class="loader-text">Cargando...</div>
+            <div class="loader-subtext">Preparando tu rutina girly 💕</div>
+        </div>
+    </div>
+
     <div class="sparkle">💫</div>
     <div class="sparkle">🌟</div>
     <div class="sparkle">⭐</div>
@@ -2026,14 +2080,6 @@ Usa este espacio para lo que quieras:
             }
         }
 
-        // Auto-guardar cuaderno mientras escribes
-        if (document.getElementById('notebookText')) {
-            document.getElementById('notebookText').addEventListener('input', function() {
-                updateWordCount();
-                saveNotebook();
-            });
-        }
-
         function renderStats() {
             const total = tasks.length;
             const completed = tasks.filter(t => t.completed).length;
@@ -2168,8 +2214,54 @@ Usa este espacio para lo que quieras:
 
         document.getElementById('taskDeadline').min = new Date().toISOString().split('T')[0];
 
-        // Inicializar
-        loadTasks();
+        // Inicializar - Cargar TODO antes de mostrar la app
+        async function initializeApp() {
+            try {
+                // Mostrar loader
+                const loader = document.getElementById('appLoader');
+                
+                // Cargar todas las cosas en paralelo para que sea más rápido
+                await Promise.all([
+                    loadTasks(),
+                    loadNotebook(),
+                    loadSavedNotes(),
+                    loadShoppingLists()
+                ]);
+                
+                // Configurar auto-save del cuaderno
+                const notebookText = document.getElementById('notebookText');
+                if (notebookText) {
+                    notebookText.addEventListener('input', function() {
+                        updateWordCount();
+                        saveNotebook();
+                    });
+                }
+                
+                // Dar un ratito para que todo se renderice
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                // Ocultar loader con animación
+                loader.classList.add('hidden');
+                
+                // Después de la animación, removerlo completamente
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 300);
+                
+                console.log('✨ App cargada completamente!');
+            } catch (error) {
+                console.error('Error al inicializar:', error);
+                // Incluso si hay error, ocultar el loader
+                document.getElementById('appLoader').style.display = 'none';
+            }
+        }
+
+        // Iniciar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
     </script>
 
     <!-- PWA Service Worker Registration -->
