@@ -863,19 +863,20 @@
             padding: 20px 25px;
             border-bottom: 3px solid #ffb3d9;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
+            text-align: center;
+            gap: 8px;
         }
 
         .notebook-title {
             font-size: 1.8em;
             color: #ff66b3;
             font-weight: 700;
-            flex: 1;
         }
 
         .notebook-date {
-            font-size: 1em;
+            font-size: 0.95em;
             color: #ff99cc;
             font-weight: 600;
         }
@@ -951,11 +952,12 @@
 
         .note-card-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
             margin-bottom: 12px;
             padding-bottom: 12px;
             border-bottom: 2px solid #ffe4f3;
+            gap: 8px;
         }
 
         .note-title-input {
@@ -965,7 +967,7 @@
             background: transparent;
             border: none;
             outline: none;
-            flex: 1;
+            width: 100%;
             font-family: 'Quicksand', sans-serif;
         }
 
@@ -1978,6 +1980,7 @@ Usa este espacio para lo que quieras:
                 return `
                     <div class="note-card">
                         <div class="note-card-header">
+                            <div class="note-date">${dateStr}</div>
                             <input 
                                 type="text" 
                                 class="note-title-input" 
@@ -1985,7 +1988,6 @@ Usa este espacio para lo que quieras:
                                 placeholder="Título de la nota..." 
                                 onchange="updateNoteTitle(${note.id}, this.value)"
                                 onblur="updateNoteTitle(${note.id}, this.value)">
-                            <div class="note-date">${dateStr}</div>
                         </div>
                         <div class="note-content" 
                              contenteditable="true" 
